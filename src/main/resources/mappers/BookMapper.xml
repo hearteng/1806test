@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cn.sky.dao.BookDao">
+   
+   <select id="findAllBook" resultType="cn.sky.entity.Book">
+   select 
+         i.id as id,
+         i.barcode as barcode,
+         i.bookname as bookname,
+         t.typename as type,
+         p.pubname as pubname,
+         c.name as casename
+   from ((tb_bookinfo i INNER JOIN tb_booktype t ON i.typeid=t.id) INNER JOIN tb_publishing p ON i.ISBN = p.ISBN) INNER JOIN tb_bookcase c ON i.bookcase=c.id
+   </select>
+   
+   <select id="finBookById" parameterType="int" resultType="cn.sky.entity.Book">
+   select 
+         i.id as id,
+         i.barcode as barcode,
+         i.bookname as bookname,
+         t.typename as type,
+         p.pubname as pubname,
+         c.name as casename
+   from ((tb_bookinfo i INNER JOIN tb_booktype t ON i.typeid=t.id) INNER JOIN tb_publishing p ON i.ISBN = p.ISBN) INNER JOIN tb_bookcase c ON i.bookcase=c.id
+   where i.id=#{id}
+   </select>
+   
+   
+   <select id="findBookCaseById" parameterType="int" resultType="cn.sky.entity.BookCase">
+   select id,name
+   from tb_bookcase
+   where id=#{id1}
+   </select>
+   
+   <select id="findPublishById" parameterType="string" resultType="cn.sky.entity.Publishing">
+   select ISBN as isbn,pubname
+   from tb_publishing
+   where ISBN=#{id1}
+   </select>
+   
+   <select id="findBookInfoById" parameterType="int" resultType="cn.sky.entity.BookInfo">
+   select 
+         barcode,
+         bookname as bookName,
+         typeId as typeid,
+         author,
+         translator,
+         ISBN as isbn,
+         price,
+         page,
+         bookcase,
+         inTime,
+         operator,
+         del,
+         id
+    from tb_bookinfo where id=#{id1}
+   </select>
+   
+   <select id="findAllBookType" resultType="cn.sky.entity.BookType">
+   select id,typename,days
+   from tb_booktype
+   </select>
+   
+   <select id="findAllPublishing" resultType="cn.sky.entity.Publishing">
+   select ISBN as isbn,pubname
+   from tb_publishing
+   </select>
+   
+   <select id="findAllBookCase" resultType="cn.sky.entity.BookCase">
+   select id,name
+   from tb_bookcase;
+   </select>
+   
+   <select id="findBookTypeById"  resultType="cn.sky.entity.BookType">
+   select id,typename as typeName,days
+   from tb_booktype
+   where id = #{id1}
+   </select>
+   
+   <insert id="addBookInfo" parameterType="cn.sky.entity.BookInfo">
+   insert into tb_bookinfo
+   (barcode,bookname,typeId,author,translator,ISBN,price,page,bookcase,inTime,operator,id)
+   values(#{barcode},#{bookName},#{typeId},#{author},#{translator},#{isbn},#{price},#{page},#{bookcase},#{inTime},#{operator},#{id})
+   </insert>
+   
+   <delete id="delBookInfoById" parameterType="int">
+   delete from tb_bookinfo where id=#{id1} 
+   </delete>
+   
+   <update id="updateBookInfo" parameterType="cn.sky.entity.BookInfo">
+   update tb_bookinfo
+   set
+      barcode = #{barcode},
+      bookname= #{bookName},
+      typeId = #{typeId},
+      author = #{author},
+      translator = #{translator},
+      isbn = #{isbn},
+      price = #{price},
+      page = #{page},
+      bookcase = #{bookcase},
+      inTime = #{inTime},
+      operator = #{operator},
+      del = #{del}
+   where id=#{id}
+   </update>
+   
+   <delete id="delBookTypeById" parameterType="int">
+   delete from tb_booktype where id=#{id1} 
+   </delete>
+   <insert id="addBookType" parameterType="cn.sky.entity.BookType">
+   insert into tb_booktype(typename,days) values(#{typeName},#{days})
+   </insert>
+   <update id="updateBookType" parameterType="cn.sky.entity.BookType">
+   update tb_booktype
+   set typename=#{typeName},days=#{days}
+   where id=#{id}
+   </update>
+   
+   
+   <delete id="delBookCaseById" parameterType="int">
+   delete from tb_bookcase where id=#{id} 
+   </delete>
+   <insert id="addBookCase" parameterType="cn.sky.entity.BookCase">
+   insert into tb_bookcase(name) values(#{name})
+   </insert>
+   <update id="updateBookCase" parameterType="cn.sky.entity.BookCase">
+   update tb_bookcase
+   set name=#{name}
+   where id=#{id}
+   </update>
+   
+   
+   <select id="findByBarcode" parameterType="string" resultType="cn.sky.entity.Book">
+      select 
+         i.id as id,
+         i.barcode as barcode,
+         i.bookname as bookname,
+         t.typename as type,
+         p.pubname as pubname,
+         c.name as casename
+   from ((tb_bookinfo i INNER JOIN tb_booktype t ON i.typeid=t.id) INNER JOIN tb_publishing p ON i.ISBN = p.ISBN) INNER JOIN tb_bookcase c ON i.bookcase=c.id
+   where i.barcode=#{barcode}
+   </select>
+   
+   <select id="findByType" parameterType="string" resultType="cn.sky.entity.Book">
+    select 
+         i.id as id,
+         i.barcode as barcode,
+         i.bookname as bookname,
+         t.typename as type,
+         p.pubname as pubname,
+         c.name as casename
+   from ((tb_bookinfo i INNER JOIN tb_booktype t ON i.typeid=t.id) INNER JOIN tb_publishing p ON i.ISBN = p.ISBN) INNER JOIN tb_bookcase c ON i.bookcase=c.id
+   where t.typename=#{type}
+   </select>
+   
+   <select id="findByPubname" parameterType="string" resultType="cn.sky.entity.Book">
+    select 
+         i.id as id,
+         i.barcode as barcode,
+         i.bookname as bookname,
+         t.typename as type,
+         p.pubname as pubname,
+         c.name as casename
+   from ((tb_bookinfo i INNER JOIN tb_booktype t ON i.typeid=t.id) INNER JOIN tb_publishing p ON i.ISBN = p.ISBN) INNER JOIN tb_bookcase c ON i.bookcase=c.id
+   where p.pubname=#{pubname}
+   </select>
+   <select id="findByBookname" parameterType="string" resultType="cn.sky.entity.Book">
+    select 
+         i.id as id,
+         i.barcode as barcode,
+         i.bookname as bookname,
+         t.typename as type,
+         p.pubname as pubname,
+         c.name as casename
+   from ((tb_bookinfo i INNER JOIN tb_booktype t ON i.typeid=t.id) INNER JOIN tb_publishing p ON i.ISBN = p.ISBN) INNER JOIN tb_bookcase c ON i.bookcase=c.id
+   where i.bookname=#{bookname}
+   </select>
+   <select id="findByCasename" parameterType="string" resultType="cn.sky.entity.Book">
+    select 
+         i.id as id,
+         i.barcode as barcode,
+         i.bookname as bookname,
+         t.typename as type,
+         p.pubname as pubname,
+         c.name as casename
+   from ((tb_bookinfo i INNER JOIN tb_booktype t ON i.typeid=t.id) INNER JOIN tb_publishing p ON i.ISBN = p.ISBN) INNER JOIN tb_bookcase c ON i.bookcase=c.id
+   where c.name LIKE concat(concat('%',#{casename}),'%')
+   </select>
+</mapper>
+
+
+
+
+
+
+
+

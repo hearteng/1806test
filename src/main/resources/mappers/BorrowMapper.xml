@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cn.sky.dao.BorrowDao">
+  
+  <select id="findBorrowById" parameterType="int" resultType="cn.sky.entity.Borrow" >
+   select readerid,bookid,borrowTime,backTime,operator,ifback
+   from tb_borrow
+   where id=#{id}
+  </select>
+  
+  
+  <select id="findByReaderId" parameterType="int" resultType="cn.sky.entity.Borrow">
+   select readerid,bookid,borrowTime,backTime,operator,ifback
+   from tb_borrow
+   where readerid=#{readerid}
+   and ifback=1
+  </select>
+  
+  <select id="findBorrowByReaderId" parameterType="int" resultType="cn.sky.entity.Borrow">
+   select readerid,bookid,borrowTime,backTime,operator,ifback
+   from tb_borrow
+   where readerid=#{readerid}
+   and ifback=0
+  </select>
+  
+  <select id="findMapByReaderId" parameterType="int" resultType="map" >
+  select id,bookid
+  from tb_borrow
+  where readerid=#{readerid}
+  and ifback=0
+  </select>
+  
+  <insert id="addBorrow" parameterType="cn.sky.entity.Borrow">
+   insert into tb_borrow (readerid,bookid,borrowTime,backTime,operator)
+   values (#{readerId},#{bookId},#{borrowTime},#{backTime},#{operator})
+  </insert>
+  
+  <update id="updateBorrow" parameterType="cn.sky.entity.Borrow">
+  update tb_borrow
+  set ifback=#{ifback}
+  where readerid=#{readerId}
+  and bookid=#{bookId}
+  </update>
+  
+  <insert id="addBack" parameterType="cn.sky.entity.Back">
+   insert into tb_giveback (readerid,bookid,backTime,operator)
+   values (#{readerId},#{bookId},#{backTime},#{operator})
+  </insert>
+  
+</mapper>
+
+
+
+
+
+
+
+

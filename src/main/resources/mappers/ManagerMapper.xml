@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cn.sky.dao.ManagerDao">
+   
+   <select id="checkManager" parameterType="string" resultType="cn.sky.entity.Manager">
+   select id,name,pwd
+   from tb_manager where name=#{name1}
+   </select>
+ 
+   <insert id="addManager" parameterType="string">
+   insert into tb_manager(name,pwd) values (#{name}, #{pwd})
+   </insert>
+
+   <update id="updateManager" parameterType="cn.sky.entity.Manager">
+   update tb_manager
+   set pwd=#{pwd}
+   where name=#{name}
+   </update>
+</mapper>
+
+
+
+
+
+
+
+

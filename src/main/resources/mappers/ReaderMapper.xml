@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cn.sky.dao.ReaderDao">
+   
+   <select id="findAllReader" resultType="cn.sky.entity.Reader">
+   select tb_reader.id,tb_reader.name,sex,barcode,vocation,birthday,paperType,paperNo,tel,email,createDate,operator,remark,typeid,tb_readertype.name as 'type' 
+   from tb_reader join tb_readertype
+   on tb_reader.typeid = tb_readertype.id
+   </select>
+   <select id="findAllReaderType" resultType="cn.sky.entity.ReaderType">
+   select id,name,number
+   from tb_readertype
+   </select>
+
+
+   <select id="findById" parameterType="int" resultType="cn.sky.entity.Reader">
+   select tb_reader.id,tb_reader.name,sex,barcode,vocation,birthday,paperType,paperNo,tel,email,createDate,operator,remark,typeid,tb_readertype.name as 'type' 
+   from tb_reader join tb_readertype
+   on tb_reader.typeid = tb_readertype.id
+   where tb_reader.id = #{id1}
+   </select>
+   
+   <select id="findByBarcode" parameterType="string" resultType="cn.sky.entity.Reader">
+   select tb_reader.id,tb_reader.name,sex,barcode,vocation,birthday,paperType,paperNo,tel,email,createDate,operator,remark,typeid,tb_readertype.name as 'type' 
+   from tb_reader join tb_readertype
+   on tb_reader.typeid = tb_readertype.id
+   where tb_reader.barcode = #{barcode}
+   </select>
+   
+   
+   <select id="findReaderTypeById" parameterType="int" resultType="cn.sky.entity.ReaderType">
+   select id,name,number
+   from tb_readertype
+   where id=#{id}
+   </select>
+   
+   
+   <delete id="deleteReaderById" parameterType="int">
+   delete from tb_reader 
+   where id=#{id1} 
+   </delete>
+   
+   <insert id="addReader" parameterType="cn.sky.entity.Reader">
+   insert into tb_reader 
+   (name,sex,barcode,vocation,birthday,paperType,paperNo,tel,email,createDate,operator,remark,typeid)
+   values
+   (#{name},#{sex},#{barcode},#{vocation},#{birthday},#{paperType},#{paperNo},#{tel},#{email},#{createDate},#{operator},#{remark},#{typeid})
+   </insert>
+   
+   <update id="updateReader" parameterType="cn.sky.entity.Reader">
+   update tb_reader
+   set name=#{name},
+       sex = #{sex},
+       barcode = #{barcode},
+       vocation = #{vocation},
+       birthday = #{birthday},
+       paperType = #{paperType},
+       paperNo = #{paperNo},
+       tel = #{tel},
+       email = #{email},
+       createDate = #{createDate},
+       operator = #{operator},
+       remark = #{remark},
+       typeid = #{typeid}
+    where id = #{id}
+   </update>
+   
+   <delete id="delReaderTypeById" parameterType="int">
+   delete from tb_readertype
+   where id = #{id}
+   </delete>
+   <insert id="addReaderType" parameterType="cn.sky.entity.ReaderType">
+   insert into tb_readertype values
+   (#{id},#{name},#{number})
+   </insert>
+   <update id="updateReaderType" parameterType="cn.sky.entity.ReaderType">
+   update tb_readertype
+   set name=#{name},number=#{number}
+   where id=#{id}
+   </update>
+</mapper>
+
+
+
+
+
+
+
+
